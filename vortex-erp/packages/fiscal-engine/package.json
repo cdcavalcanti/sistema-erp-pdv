@@ -1,0 +1,17 @@
+{
+  "name": "@vortex/fiscal-engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Motor fiscal VORTEX: biblioteca pura (sem banco) que calcula CFOP, CST e tributos por item.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": { "@vortex/money": "workspace:*", "@vortex/validators": "workspace:*" },
+  "devDependencies": { "fast-check": "^4.3.0" }
+}

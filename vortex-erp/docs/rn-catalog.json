@@ -1,0 +1,358 @@
+[
+ {
+  "code": "RN-GER-01",
+  "rule": "Uma fonte da verdade. Cada dado tem um único dono. O estoque só muda por movimento de estoque; o saldo financeiro só muda por lançamento; o resultado contábil só muda por lançamento contábil. Nada é \"editado direto\" no saldo."
+ },
+ {
+  "code": "RN-GER-02",
+  "rule": "Documento emitido não se edita. Pedido faturado, nota autorizada, título baixado e lançamento de período fechado são imutáveis. Correção é feita por documento novo: estorno, devolução, carta de correção, complemento ou lançamento de ajuste."
+ },
+ {
+  "code": "RN-GER-03",
+  "rule": "Regra fiscal é dado, não código. Alíquotas, CFOP, CST, MVA e cClassTrib ficam em tabelas com data de início e fim de vigência. O cálculo de uma nota usa as regras vigentes na data do fato gerador, mesmo que seja reprocessado anos depois."
+ },
+ {
+  "code": "RN-GER-04",
+  "rule": "Regras de negócio fora do LLM. Cálculo de imposto, preço, crédito, comissão e estoque são funções determinísticas e testadas. A IA pode sugerir valores, mas o sistema valida e um humano confirma tudo que gera efeito fiscal ou financeiro."
+ },
+ {
+  "code": "RN-GER-05",
+  "rule": "Auditoria completa. Toda criação, alteração, cancelamento e aprovação grava quem, quando, de onde (IP e dispositivo), o valor anterior e o novo. O log de auditoria é só de inserção."
+ },
+ {
+  "code": "RN-GER-06",
+  "rule": "Dinheiro nunca em ponto flutuante. Valores em NUMERIC com escala fixa; arredondamento explícito e centralizado em uma única biblioteca, com regra documentada por campo."
+ },
+ {
+  "code": "RN-GER-07",
+  "rule": "Idempotência. Toda operação que cria documento ou movimento aceita uma chave de idempotência. Repetir a requisição (queda de rede, clique duplo, reprocessamento de fila) nunca duplica nota, título ou baixa de estoque."
+ },
+ {
+  "code": "RN-GER-08",
+  "rule": "Eventos para fora, transação para dentro. Dentro do ERP, a venda, a baixa de estoque e o título nascem na mesma transação de banco. Para os outros módulos VORTEX, o ERP publica eventos (padrão outbox), sem depender de eles estarem no ar."
+ },
+ {
+  "code": "RN-GER-09",
+  "rule": "Configurar antes de customizar. Diferenças entre clientes viram parâmetros, tipos de operação e regras. Código específico por cliente só como extensão isolada, nunca dentro do núcleo."
+ },
+ {
+  "code": "RN-GER-10",
+  "rule": "Fail-safe fiscal. Se o serviço da SEFAZ ou do parceiro emissor estiver fora, o sistema entra em contingência ou enfileira, mostra o estado com clareza e nunca dá a nota como autorizada sem o protocolo."
+ },
+ {
+  "code": "RN-ORG-01",
+  "rule": "Toda tabela de negócio tem tenant_id e company_id obrigatórios e políticas RLS. Nenhuma consulta cruza tenants, inclusive em relatórios e na IA."
+ },
+ {
+  "code": "RN-ORG-02",
+  "rule": "Cadastros podem ser compartilhados (produto, cliente) ou exclusivos por estabelecimento (preço, saldo, série fiscal). A configuração é por tipo de cadastro, definida na implantação."
+ },
+ {
+  "code": "RN-ORG-03",
+  "rule": "Regime tributário pertence ao estabelecimento e tem vigência (ex.: empresa saiu do Simples em 1º de janeiro). Mudança de regime nunca altera documentos já emitidos."
+ },
+ {
+  "code": "RN-ORG-04",
+  "rule": "O certificado digital A1 é guardado criptografado (cofre de segredos/KMS), nunca em disco aberto nem no banco em texto. O sistema avisa 30, 15 e 5 dias antes do vencimento."
+ },
+ {
+  "code": "RN-ACE-01",
+  "rule": "Segregação de funções: quem cadastra fornecedor ou conta bancária de fornecedor não aprova o pagamento para ele. Configurável, ativo por padrão."
+ },
+ {
+  "code": "RN-ACE-02",
+  "rule": "Alteração de dados bancários de fornecedor exige dupla aprovação e gera alerta (principal vetor de fraude em contas a pagar)."
+ },
+ {
+  "code": "RN-ACE-03",
+  "rule": "Ações sensíveis (cancelar nota, estornar baixa, reabrir período, alterar preço de custo) pedem motivo em texto e ficam destacadas na auditoria."
+ },
+ {
+  "code": "RN-ACE-04",
+  "rule": "LGPD: dados pessoais de clientes pessoa física têm finalidade registrada, podem ser exportados e anonimizados a pedido, exceto o que a lei fiscal obriga a guardar (documentos fiscais)."
+ },
+ {
+  "code": "RN-CAD-01",
+  "rule": "CPF e CNPJ têm os dígitos verificadores validados. Desde 31 de julho de 2026 a Receita emite CNPJ alfanumérico para novas inscrições: o campo deve ser texto de 14 posições (nunca número) e o validador deve aceitar letras nas 12 primeiras posições, com os 2 dígitos verificadores numéricos. CNPJs antigos continuam válidos."
+ },
+ {
+  "code": "RN-CAD-02",
+  "rule": "CPF/CNPJ é único por tenant entre pessoas ativas. Tentativa de duplicar abre o cadastro existente."
+ },
+ {
+  "code": "RN-CAD-03",
+  "rule": "Inscrição estadual validada pelo algoritmo da UF. Se indicador = contribuinte, a IE é obrigatória; se isento, gravar \"ISENTO\" conforme o leiaute da NF-e."
+ },
+ {
+  "code": "RN-CAD-04",
+  "rule": "Ao digitar CNPJ ou CEP, o sistema preenche dados por consulta pública (cadastro de CNPJ, 04 CEP e IBGE), e o usuário confirma. Situação cadastral \"inapta\" ou \"baixada\" bloqueia a venda a prazo."
+ },
+ {
+  "code": "RN-CAD-05",
+  "rule": "Cadastro nunca é excluído se tiver movimento; apenas inativado. Exclusão física só para registro sem nenhum vínculo."
+ },
+ {
+  "code": "RN-PRE-01",
+  "rule": "Cada tabela de preço tem vigência, estabelecimentos, canais (balcão, e-commerce, atacado) e, opcionalmente, clientes ou segmentos. A prioridade de busca é: preço do cliente → tabela do segmento → tabela do canal → tabela padrão."
+ },
+ {
+  "code": "RN-PRE-02",
+  "rule": "Promoções têm início, fim, limite de quantidade e regra (desconto %, preço fixo, leve 3 pague 2, desconto progressivo). Promoções não se acumulam, salvo configuração explícita; vale a mais vantajosa para o cliente."
+ },
+ {
+  "code": "RN-PRE-03",
+  "rule": "Venda abaixo do custo ou da margem mínima é bloqueada e exige aprovação por alçada, registrando quem aprovou."
+ },
+ {
+  "code": "RN-PRE-04",
+  "rule": "Alteração de preço gera histórico (preço anterior, novo, usuário, data) e pode ser agendada para uma data futura."
+ },
+ {
+  "code": "RN-FIS-01",
+  "rule": "A regra fiscal é encontrada por matriz de prioridade: combinação mais específica vence (ex.: NCM + UF destino + tipo de cliente) sobre a mais genérica (só o tipo de operação). Empate entre regras igualmente específicas é erro de configuração e bloqueia o salvamento da regra."
+ },
+ {
+  "code": "RN-FIS-02",
+  "rule": "O resultado do cálculo é gravado no item do documento (base, alíquota, valor e a regra usada). Relatórios e SPED leem o que foi gravado; nunca recalculam documentos emitidos."
+ },
+ {
+  "code": "RN-FIS-03",
+  "rule": "Rateio de frete, seguro, outras despesas e desconto do cabeçalho entre os itens é proporcional ao valor de cada item; a diferença de centavos vai para o item de maior valor. Esses valores entram na base dos impostos conforme a regra de cada tributo."
+ },
+ {
+  "code": "RN-FIS-04",
+  "rule": "O usuário pode ver a \"memória de cálculo\" de cada item (qual regra, qual base, qual alíquota). Isso reduz suporte e dá confiança ao contador."
+ },
+ {
+  "code": "RN-REF-01",
+  "rule": "Cadastro de produto e de serviço com cClassTrib padrão e possibilidade de exceção por tipo de operação. A tabela oficial de cClassTrib é importada com vigência."
+ },
+ {
+  "code": "RN-REF-02",
+  "rule": "Alíquotas de CBS, IBS estadual e IBS municipal ficam em tabela por ano, UF e município. Reduções (ex.: 60% e 30% para setores específicos) e regimes específicos são parâmetros, não código."
+ },
+ {
+  "code": "RN-REF-03",
+  "rule": "Na transição (2029–2032), o motor calcula em paralelo ICMS/ISS reduzidos e IBS proporcional, com a proporção do ano vigente vinda de tabela."
+ },
+ {
+  "code": "RN-REF-04",
+  "rule": "Créditos de IBS/CBS são controlados em um livro de créditos por estabelecimento, por documento de origem, com estado: apropriado, condicionado ao pagamento (quando o fornecedor ainda não recolheu), estornado, utilizado."
+ },
+ {
+  "code": "RN-REF-05",
+  "rule": "Preço de venda deve poder ser exibido com e sem os novos tributos, porque IBS/CBS são calculados por fora. A tabela de preço define se o preço cadastrado é líquido ou cheio."
+ },
+ {
+  "code": "RN-REF-06",
+  "rule": "Previsão para split payment: o título a receber guarda a parcela de tributo que será retida pelo meio de pagamento, e a conciliação bancária reconhece recebimento líquido + tributo recolhido na fonte."
+ },
+ {
+  "code": "RN-REF-07",
+  "rule": "Simulador de impacto: para cada cliente VORTEX, comparar carga atual × carga projetada por produto e ano. É um diferencial comercial forte na venda do ERP."
+ },
+ {
+  "code": "RN-NFE-01",
+  "rule": "Numeração é sequencial por estabelecimento, modelo e série, reservada dentro de uma transação com bloqueio. Número nunca é reaproveitado: se uma nota rejeitada for abandonada, o número precisa ser inutilizado (pedido à SEFAZ, em geral até o dia 10 do mês seguinte)."
+ },
+ {
+  "code": "RN-NFE-02",
+  "rule": "Validação interna antes de transmitir: esquema XSD, regras de negócio da NT vigente, totais fechando, CFOP compatível com a UF de destino, NCM vigente, IE do destinatário, CST coerente com o regime. Erro previsível nunca deve chegar à SEFAZ."
+ },
+ {
+  "code": "RN-NFE-03",
+  "rule": "Rejeição volta ao usuário com o código, a mensagem da SEFAZ e uma explicação em português simples (catálogo de rejeições mantido pela VORTEX) e o documento volta para correção mantendo o número."
+ },
+ {
+  "code": "RN-NFE-04",
+  "rule": "Denegação (irregularidade cadastral do emitente ou destinatário) encerra a numeração daquela nota: ela não pode ser reutilizada nem cancelada. Os itens voltam ao pedido."
+ },
+ {
+  "code": "RN-NFE-05",
+  "rule": "Cancelamento: prazo padrão de 24 horas após a autorização e somente se a mercadoria não circulou. Fora do prazo, conforme regras da UF (cancelamento extemporâneo) ou por nota de entrada/devolução. Cancelamento estorna estoque, título e lançamento contábil automaticamente."
+ },
+ {
+  "code": "RN-NFE-06",
+  "rule": "Carta de correção (CC-e): até 20 por nota; cada nova CC-e substitui a anterior e deve conter todas as correções. Não pode alterar valores, impostos, quantidades, dados que mudem o remetente ou o destinatário, nem a data de emissão ou saída. O ERP bloqueia esses campos na tela da CC-e."
+ },
+ {
+  "code": "RN-NFE-07",
+  "rule": "Contingência: se a SEFAZ autorizadora estiver indisponível, usar SVC (SEFAZ Virtual de Contingência) ou EPEC; a nota emitida em contingência é sinalizada e transmitida assim que o serviço volta. O sistema mostra o painel de notas em contingência pendentes."
+ },
+ {
+  "code": "RN-NFE-08",
+  "rule": "Guarda: XML autorizado e protocolo guardados em armazenamento imutável por no mínimo 5 anos (recomendado 6, cobrindo o prazo decadencial completo). O XML é a nota; o DANFE é só uma representação."
+ },
+ {
+  "code": "RN-NFE-09",
+  "rule": "Devolução: nasce a partir da nota original, item a item, com quantidades limitadas ao saldo ainda não devolvido, CFOP de devolução e tributos espelhados proporcionalmente. Obrigatório referenciar o documento original por item (NT 2025.002 v1.52)."
+ },
+ {
+  "code": "RN-NFE-10",
+  "rule": "Envio ao destinatário: XML e DANFE enviados automaticamente por e-mail e, opcionalmente, por WhatsApp (via VORTEX Agents); link permanente no portal do cliente."
+ },
+ {
+  "code": "RN-VEN-01",
+  "rule": "Um pedido pode ser faturado em várias notas (faturamento parcial). O saldo a faturar por item é sempre: quantidade pedida − faturada − cancelada."
+ },
+ {
+  "code": "RN-VEN-02",
+  "rule": "Limite de crédito disponível = limite − (títulos em aberto + pedidos aprovados não faturados). Cliente com título vencido há mais de N dias (parâmetro) bloqueia novos pedidos a prazo."
+ },
+ {
+  "code": "RN-VEN-03",
+  "rule": "Desconto total do pedido é rateado nos itens (RN-FIS-03). Desconto por item e desconto geral são registrados separadamente para relatório de política comercial."
+ },
+ {
+  "code": "RN-VEN-04",
+  "rule": "Pedido faturado não pode ser alterado nem excluído. Cancelamento de pedido faturado exige cancelamento ou devolução da nota."
+ },
+ {
+  "code": "RN-VEN-05",
+  "rule": "Venda para entrega futura e venda com remessa por conta e ordem são tipos de operação próprios, com duas notas (faturamento e remessa) vinculadas."
+ },
+ {
+  "code": "RN-VEN-06",
+  "rule": "Comissão: percentual por vendedor, por produto, por tabela de preço ou por faixa de desconto (quanto maior o desconto, menor a comissão). Regime configurável: sobre faturamento ou sobre recebimento. Devolução estorna comissão."
+ },
+ {
+  "code": "RN-VEN-07",
+  "rule": "Metas por vendedor, equipe, filial, produto e período, com acompanhamento diário de realizado × meta (alimenta o VORTEX Insights)."
+ },
+ {
+  "code": "RN-COM-01",
+  "rule": "Conferência de três vias: pedido × nota fiscal × quantidade física recebida. Divergência 01 acima da tolerância (ex.: preço +2%, quantidade ±0) bloqueia a entrada até aprovação do comprador."
+ },
+ {
+  "code": "RN-COM-02",
+  "rule": "Conferência cega opcional: o conferente informa o que contou sem ver a quantidade da nota. 02"
+ },
+ {
+  "code": "RN-COM-03",
+  "rule": "De-para: o código e a unidade do produto no fornecedor ficam gravados após o primeiro 03 recebimento; nos seguintes, o vínculo é automático. A IA sugere o vínculo na primeira vez (seção 20)."
+ },
+ {
+  "code": "RN-COM-04",
+  "rule": "O custo de entrada de cada item = valor do produto + frete + seguro + outras despesas + IPI 04 não recuperável + ICMS-ST − descontos − impostos recuperáveis (créditos de ICMS, PIS/Cofins, IBS/CBS conforme o regime). Esse custo alimenta o custo médio (seção 12)."
+ },
+ {
+  "code": "RN-COM-05",
+  "rule": "Frete de compra com CT-e próprio é rateado entre as notas e itens que transportou, por valor 05 ou por peso (configurável)."
+ },
+ {
+  "code": "RN-COM-06",
+  "rule": "Nota recebida sem pedido de compra pode ser aceita apenas por usuário com permissão e 06 fica marcada no relatório de compras fora do processo."
+ },
+ {
+  "code": "RN-COM-07",
+  "rule": "Devolução a fornecedor gera NF-e de devolução de compra, baixa estoque, estorna créditos 07 e abate o título a pagar ou gera crédito com o fornecedor."
+ },
+ {
+  "code": "RN-EST-01",
+  "rule": "Saldo é controlado por estabelecimento + depósito + produto + lote/série (e endereço, se WMS ativo). Saldo disponível = físico − reservado − bloqueado."
+ },
+ {
+  "code": "RN-EST-02",
+  "rule": "Estoque negativo é bloqueado por padrão. Se o cliente liberar (comum em food service), o sistema marca o produto e corrige o custo quando a entrada chegar."
+ },
+ {
+  "code": "RN-EST-03",
+  "rule": "Custo médio ponderado móvel, por estabelecimento: novo custo médio = (saldo × custo médio atual + quantidade de entrada × custo unitário de entrada) ÷ (saldo + quantidade de entrada). Saídas não alteram o custo médio; saem pelo custo médio do momento."
+ },
+ {
+  "code": "RN-EST-04",
+  "rule": "Entrada com data retroativa ou estorno de entrada dispara recálculo do custo a partir daquela data (job em fila), com relatório do que mudou. Período fechado bloqueia o recálculo."
+ },
+ {
+  "code": "RN-EST-05",
+  "rule": "Produtos com validade usam FEFO (vence primeiro, sai primeiro) na sugestão de separação. Lote vencido é bloqueado para venda automaticamente."
+ },
+ {
+  "code": "RN-EST-06",
+  "rule": "Toda baixa por perda, avaria ou consumo exige motivo e, acima de um valor, aprovação; alimenta o indicador de perdas."
+ },
+ {
+  "code": "RN-FIN-01",
+  "rule": "Título gerado por documento fiscal não pode ter valor alterado manualmente; mudanças acontecem por devolução, abatimento ou renegociação, sempre registradas."
+ },
+ {
+  "code": "RN-FIN-02",
+  "rule": "Encargos de atraso configuráveis por empresa: multa (%) uma vez e juros de mora (% ao mês, pro rata dia). Em relações de consumo a multa por atraso é limitada a 2% (art. 52 do Código de Defesa do Consumidor); o sistema aplica esse limite quando o cliente é pessoa física consumidora."
+ },
+ {
+  "code": "RN-FIN-03",
+  "rule": "Baixa parcial mantém o título aberto com o saldo; ordem de abatimento configurável (primeiro juros e multa, depois principal)."
+ },
+ {
+  "code": "RN-FIN-04",
+  "rule": "Renegociação cancela os títulos originais com status \"renegociado\" e cria novos títulos vinculados, preservando o histórico, os encargos negociados e o desconto concedido (que vai para a DRE como despesa)."
+ },
+ {
+  "code": "RN-FIN-05",
+  "rule": "Adiantamentos (de cliente ou a fornecedor) ficam como crédito na conta da pessoa e são compensados com títulos futuros."
+ },
+ {
+  "code": "RN-FIN-06",
+  "rule": "Estorno de baixa só pelo mesmo caminho inverso e com motivo; baixa conciliada com extrato não pode ser estornada sem desfazer a conciliação."
+ },
+ {
+  "code": "RN-FIN-07",
+  "rule": "Pagamentos: borderô de pagamento agrupa títulos aprovados, gera arquivo de remessa ou chamadas de API ao banco (TED, Pix, boleto), e só baixa os títulos após o retorno de confirmação."
+ },
+ {
+  "code": "RN-FIN-08",
+  "rule": "Venda no cartão gera título contra a adquirente (não contra o cliente), com valor líquido e data prevista conforme taxa e prazo cadastrados; a taxa vai para despesa financeira. Divergência entre previsto e pago pela adquirente gera alerta."
+ },
+ {
+  "code": "RN-FIN-09",
+  "rule": "Régua de cobrança configurável: lembrete antes do vencimento, no dia e após atraso (D−3, D0, D+3, D+10...), por e-mail e WhatsApp, com 2ª via e Pix atualizado. Integrada ao VORTEX Agents para negociação assistida."
+ },
+ {
+  "code": "RN-CTB-01",
+  "rule": "Partidas dobradas: todo lançamento tem débitos = créditos. O banco de dados recusa lançamento desbalanceado (verificação na transação, não só na tela)."
+ },
+ {
+  "code": "RN-CTB-02",
+  "rule": "Contabilização automática por eventos: cada tipo de evento (venda faturada, recebimento, compra recebida, pagamento, baixa de estoque, folha) tem uma regra de contabilização com contas parametrizáveis por tipo de operação, filial e categoria."
+ },
+ {
+  "code": "RN-CTB-03",
+  "rule": "Plano de contas da empresa vinculado ao plano de contas referencial da Receita (exigido na ECD e na ECF)."
+ },
+ {
+  "code": "RN-CTB-04",
+  "rule": "Fechamento de período: o contador fecha o mês; nenhum documento, baixa ou movimento com data dentro do período fechado pode ser criado, alterado ou estornado. Reabertura só por perfil de contador, com motivo."
+ },
+ {
+  "code": "RN-CTB-05",
+  "rule": "Lançamentos manuais permitidos apenas em contas marcadas como \"aceita lançamento manual\" e com histórico padrão."
+ },
+ {
+  "code": "RN-CTR-01",
+  "rule": "Reajuste nunca altera títulos já gerados; aplica-se a partir da competência seguinte à data- base, com histórico de valores do contrato."
+ },
+ {
+  "code": "RN-CTR-02",
+  "rule": "Alteração de plano no meio do ciclo gera cobrança ou crédito proporcional aos dias (pro rata), conforme parâmetro do contrato."
+ },
+ {
+  "code": "RN-REL-01",
+  "rule": "Todo relatório tem filtros salvos, exportação (PDF, Excel, CSV), agendamento por e- mail/WhatsApp e respeita as permissões e o escopo do usuário."
+ },
+ {
+  "code": "RN-REL-02",
+  "rule": "Relatórios pesados rodam em fila e avisam quando ficam prontos; nenhuma tela de relatório pode travar o sistema para os outros usuários."
+ },
+ {
+  "code": "RN-IA-01",
+  "rule": "A IA usa apenas ferramentas de leitura por padrão. Ações de escrita (criar título, sugerir compra) sempre criam um rascunho que precisa de confirmação humana."
+ },
+ {
+  "code": "RN-IA-02",
+  "rule": "Toda chamada de IA registra tenant, usuário, custo e resultado, enviados ao VORTEX Meter para cobrança do consumo."
+ },
+ {
+  "code": "RN-IA-03",
+  "rule": "Dados de um tenant nunca entram no contexto de outro. Dados pessoais são minimizados antes de ir ao modelo."
+ }
+]

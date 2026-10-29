@@ -1,0 +1,36 @@
+{
+  "name": "@vortex/pdv",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Vortex PDV — agente local do terminal: frente de caixa offline-first integrada ao Vortex ERP",
+  "files": [
+    "dist/src",
+    ".env.example"
+  ],
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=.env src/main.ts",
+    "start": "node --env-file-if-exists=.env dist/src/main.js",
+    "build": "tsc -p tsconfig.json && node scripts/copy-migrations.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "pair": "tsx --env-file-if-exists=.env src/cli/pair.ts"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.0.0",
+    "@fastify/rate-limit": "^10.3.0",
+    "@vortex/contracts": "workspace:*",
+    "@vortex/fiscal-engine": "workspace:*",
+    "@vortex/money": "workspace:*",
+    "@vortex/pricing": "workspace:*",
+    "@vortex/validators": "workspace:*",
+    "fastify": "^5.4.0",
+    "zod": "4.6.6",
+    "@fastify/static": "10.1.6"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.3",
+    "fast-check": "^4.3.0",
+    "pg": "^8.16.0"
+  }
+}

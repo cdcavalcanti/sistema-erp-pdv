@@ -1,0 +1,24 @@
+{
+  "name": "@vortex/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Esquemas de entrada (zod) compartilhados entre a API e o web app",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@vortex/validators": "workspace:*",
+    "zod": "4.6.6"
+  }
+}

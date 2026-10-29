@@ -1,0 +1,48 @@
+import type { App } from '../http/app.js';
+import { registerAuthRoutes } from './auth/routes.js';
+import { registerOrgRoutes } from './org/routes.js';
+import { registerAdminRoutes } from './admin/routes.js';
+import { registerIntegrationRoutes } from './integration/routes.js';
+import { registerRegistryRoutes } from './registry/routes.js';
+import { registerCatalogRoutes } from './catalog/routes.js';
+import { registerFiscalRoutes } from './fiscal/routes.js';
+import { registerInventoryRoutes } from './inventory/routes.js';
+import { registerFiscalDocumentRoutes } from './fiscal-docs/routes.js';
+import { registerSalesRoutes } from './sales/routes.js';
+import { registerFinanceRoutes } from './finance/routes.js';
+import { registerBankingRoutes } from './finance/routes-banking.js';
+import { registerAccountingRoutes } from './accounting/routes.js';
+import { registerPurchasingRoutes } from './purchasing/routes.js';
+import { registerReportRoutes } from './reports/routes.js';
+import { registerPdvRoutes } from './pdv/routes.js';
+import { registerContractRoutes } from './contracts/routes.js';
+import { registerProductionRoutes } from './production/routes.js';
+import { registerHrRoutes } from './hr/routes.js';
+import { registerAiRoutes } from './ai/routes.js';
+import { registerObligationRoutes } from './obligations/routes.js';
+import { registerSearchRoutes } from './search/routes.js';
+
+export async function registerModules(app: App): Promise<void> {
+  registerAuthRoutes(app);
+  registerOrgRoutes(app);
+  registerAdminRoutes(app);
+  registerIntegrationRoutes(app);
+  registerRegistryRoutes(app);
+  registerCatalogRoutes(app);
+  registerFiscalRoutes(app);
+  registerInventoryRoutes(app);
+  registerFiscalDocumentRoutes(app);
+  registerSalesRoutes(app);
+  registerFinanceRoutes(app);
+  registerBankingRoutes(app);
+  registerAccountingRoutes(app);
+  registerPurchasingRoutes(app);
+  registerReportRoutes(app);
+  registerPdvRoutes(app);
+  registerContractRoutes(app);
+  registerProductionRoutes(app);
+  registerHrRoutes(app);
+  registerAiRoutes(app);
+  registerObligationRoutes(app);
+  registerSearchRoutes(app);
+}

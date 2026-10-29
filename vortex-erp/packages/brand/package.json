@@ -1,0 +1,17 @@
+{
+  "name": "@vortex/brand",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Identidade visual Vortex: símbolo, wordmark e tema claro/escuro compartilhados por ERP e PDV",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": { "react": ">=19" },
+  "devDependencies": { "react": "19.1.10", "@types/react": "19.1.17" }
+}

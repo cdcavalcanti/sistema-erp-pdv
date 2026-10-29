@@ -1,0 +1,30 @@
+# Agente do terminal Vortex PDV (instalado por install.sh)
+[Unit]
+Description=Vortex PDV - agente do terminal
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=vortex-pdv
+Group=vortex-pdv
+WorkingDirectory=/var/lib/vortex-pdv
+EnvironmentFile=/etc/vortex-pdv/pdv.env
+Environment=NODE_ENV=production
+Environment=PDV_UI_DIR=/opt/vortex-pdv/current/ui
+ExecStart=/usr/bin/node /opt/vortex-pdv/current/dist/src/main.js
+# Queda do processo: volta sozinho; a venda em andamento é recuperada do banco local (seção 43)
+Restart=always
+RestartSec=2
+KillSignal=SIGTERM
+TimeoutStopSec=20
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/vortex-pdv
+# Impressora/balança USB-serial
+SupplementaryGroups=dialout lp
+
+[Install]
+WantedBy=multi-user.target

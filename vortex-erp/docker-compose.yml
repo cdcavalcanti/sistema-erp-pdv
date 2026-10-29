@@ -1,0 +1,48 @@
+# Ambiente de desenvolvimento. Homologação e produção usam a mesma imagem com
+# variáveis próprias (regra da casa: nunca testar emissão em produção).
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports: ["5432:5432"]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./infra/db/init-roles.sql:/docker-entrypoint-initdb.d/init-roles.sql:ro
+      - ./infra/db/docker-init.sh:/docker-entrypoint-initdb.d/zz-init.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: { context: ., dockerfile: infra/docker/api.Dockerfile }
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://vortex_app:vortex_app@postgres:5432/vortex_erp
+      DATABASE_OWNER_URL: postgres://vortex_owner:vortex_owner@postgres:5432/vortex_erp
+      WORKER_DATABASE_URL: postgres://vortex_worker:vortex_worker@postgres:5432/vortex_erp
+    command: sh -c "node apps/api/dist/src/db/migrate-cli.js && node apps/api/dist/src/server.js"
+    ports: ["3333:3333"]
+    depends_on: { postgres: { condition: service_healthy } }
+    volumes: ["storage:/app/storage"]
+
+  worker:
+    build: { context: ., dockerfile: infra/docker/api.Dockerfile }
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://vortex_app:vortex_app@postgres:5432/vortex_erp
+      WORKER_DATABASE_URL: postgres://vortex_worker:vortex_worker@postgres:5432/vortex_erp
+    command: node apps/api/dist/src/worker.js
+    depends_on: [api]
+    volumes: ["storage:/app/storage"]
+
+  web:
+    build: { context: ., dockerfile: infra/docker/web.Dockerfile }
+    ports: ["8080:80"]
+    depends_on: [api]
+
+volumes:
+  pgdata:
+  storage:

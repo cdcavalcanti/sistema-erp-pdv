@@ -1,0 +1,385 @@
+{
+  "establishment": {
+    "id": "2d36bd0d-e60e-4b80-848e-49e33bd9609f",
+    "company_id": "21c72592-30a2-4de9-82a1-25541e620b6a",
+    "cnpj": "19280046000130",
+    "legal_name": "Empresa t-0aea1fa3 LTDA",
+    "trade_name": "Loja t-0aea1fa3",
+    "ie": "032141840",
+    "im": null,
+    "uf": "PE",
+    "city_ibge": "2611606",
+    "city_name": "Recife",
+    "street": "Rua da Aurora",
+    "number": "100",
+    "complement": null,
+    "district": "Boa Vista",
+    "zip": "50050000",
+    "phone": null,
+    "sefaz_environment": 2,
+    "nfce_csc_id": null
+  },
+  "fiscal": {
+    "date": "2026-10-27",
+    "regime": "simples_nacional",
+    "template": {
+      "date": "2026-10-27",
+      "issuer": {
+        "uf": "PE",
+        "cityIbge": "2611606",
+        "regime": "simples_nacional",
+        "simplesCreditRate": null
+      },
+      "recipient": {
+        "uf": "PE",
+        "cityIbge": "2611606",
+        "ieIndicator": 9,
+        "finalConsumer": true
+      },
+      "operation": {
+        "code": "VENDA",
+        "direction": "S",
+        "purpose": "sale",
+        "presential": true,
+        "cfopInternal": "5102",
+        "cfopInterstate": "6102",
+        "cfopForeign": null
+      },
+      "rules": [
+        {
+          "id": "44431eeb-8ac3-41ee-bacd-a5d47b4a1043",
+          "name": "Simples PE: venda sem ST (CSOSN 102)",
+          "validFrom": "2026-10-27",
+          "validTo": null,
+          "keys": {
+            "operationCode": "VENDA",
+            "direction": null,
+            "ufOrigin": null,
+            "ufDest": null,
+            "ncmPrefix": null,
+            "cest": null,
+            "taxGroup": null,
+            "productId": null,
+            "recipientIeIndicator": null,
+            "recipientFinalConsumer": null,
+            "recipientRegime": null,
+            "issuerRegime": null,
+            "origin": null,
+            "itemKind": null
+          },
+          "result": {
+            "icms": {
+              "csosn": "102"
+            }
+          }
+        },
+        {
+          "id": "71a16873-4574-4304-b375-674a92fd87a1",
+          "name": "Simples PE: venda de mercadoria com ST retida anteriormente (CSOSN 500)",
+          "validFrom": "2026-10-27",
+          "validTo": null,
+          "keys": {
+            "operationCode": "VENDA_ST",
+            "direction": null,
+            "ufOrigin": null,
+            "ufDest": null,
+            "ncmPrefix": null,
+            "cest": null,
+            "taxGroup": null,
+            "productId": null,
+            "recipientIeIndicator": null,
+            "recipientFinalConsumer": null,
+            "recipientRegime": null,
+            "issuerRegime": null,
+            "origin": null,
+            "itemKind": null
+          },
+          "result": {
+            "icms": {
+              "csosn": "500"
+            }
+          }
+        }
+      ],
+      "tables": {
+        "icmsInternalRates": {
+          "AC": "19.0000",
+          "AL": "20.0000",
+          "AM": "20.0000",
+          "AP": "18.0000",
+          "BA": "20.5000",
+          "CE": "20.0000",
+          "DF": "20.0000",
+          "ES": "17.0000",
+          "GO": "19.0000",
+          "MA": "23.0000",
+          "MG": "18.0000",
+          "MS": "17.0000",
+          "MT": "17.0000",
+          "PA": "19.0000",
+          "PB": "20.0000",
+          "PE": "20.5000",
+          "PI": "22.5000",
+          "PR": "19.5000",
+          "RJ": "20.0000",
+          "RN": "20.0000",
+          "RO": "19.5000",
+          "RR": "20.0000",
+          "RS": "17.0000",
+          "SC": "17.0000",
+          "SE": "20.0000",
+          "SP": "18.0000",
+          "TO": "20.0000"
+        },
+        "fcpRates": {
+          "RJ": "2.0000"
+        },
+        "difalBase": {
+          "AC": "single",
+          "AL": "single",
+          "AM": "single",
+          "AP": "single",
+          "BA": "single",
+          "CE": "single",
+          "DF": "single",
+          "ES": "single",
+          "GO": "single",
+          "MA": "single",
+          "MG": "single",
+          "MS": "single",
+          "MT": "single",
+          "PA": "single",
+          "PB": "single",
+          "PE": "single",
+          "PI": "single",
+          "PR": "single",
+          "RJ": "single",
+          "RN": "single",
+          "RO": "single",
+          "RR": "single",
+          "RS": "single",
+          "SC": "single",
+          "SE": "single",
+          "SP": "single",
+          "TO": "single"
+        },
+        "transition": {
+          "year": 2026,
+          "icmsIssFactor": "1.0000",
+          "pisCofinsActive": true,
+          "ipiActive": true,
+          "ibsCbsInformative": true,
+          "isActive": false
+        },
+        "ibsCbsRates": {
+          "cbs": "0.9000",
+          "ibsUf": "0.1000",
+          "ibsMun": "0.0000"
+        },
+        "cclasstrib": {
+          "200003": {
+            "code": "200003",
+            "cst": "200",
+            "reductionIbs": "100.0000",
+            "reductionCbs": "100.0000",
+            "exempt": false,
+            "deferral": false,
+            "presumedCredit": false
+          },
+          "200028": {
+            "code": "200028",
+            "cst": "200",
+            "reductionIbs": "60.0000",
+            "reductionCbs": "60.0000",
+            "exempt": false,
+            "deferral": false,
+            "presumedCredit": false
+          },
+          "200034": {
+            "code": "200034",
+            "cst": "200",
+            "reductionIbs": "60.0000",
+            "reductionCbs": "60.0000",
+            "exempt": false,
+            "deferral": false,
+            "presumedCredit": false
+          },
+          "200052": {
+            "code": "200052",
+            "cst": "200",
+            "reductionIbs": "60.0000",
+            "reductionCbs": "60.0000",
+            "exempt": false,
+            "deferral": false,
+            "presumedCredit": false
+          },
+          "410001": {
+            "code": "410001",
+            "cst": "410",
+            "reductionIbs": "100.0000",
+            "reductionCbs": "100.0000",
+            "exempt": true,
+            "deferral": false,
+            "presumedCredit": false
+          },
+          "550001": {
+            "code": "550001",
+            "cst": "550",
+            "reductionIbs": "100.0000",
+            "reductionCbs": "100.0000",
+            "exempt": false,
+            "deferral": false,
+            "presumedCredit": false
+          },
+          "620001": {
+            "code": "620001",
+            "cst": "620",
+            "reductionIbs": "0.0000",
+            "reductionCbs": "0.0000",
+            "exempt": false,
+            "deferral": false,
+            "presumedCredit": false
+          },
+          "000001": {
+            "code": "000001",
+            "cst": "000",
+            "reductionIbs": "0.0000",
+            "reductionCbs": "0.0000",
+            "exempt": false,
+            "deferral": false,
+            "presumedCredit": false
+          }
+        },
+        "monophasicNcms": [
+          "30049099",
+          "22030000",
+          "40111000",
+          "33051000",
+          "22021000"
+        ]
+      }
+    },
+    "products": [
+      {
+        "productId": "03f5a027-b885-40c9-b93a-1a96299b250a",
+        "kind": "goods",
+        "ncm": "61091000",
+        "cest": null,
+        "origin": 0,
+        "taxGroup": null,
+        "cclasstrib": null,
+        "serviceCode": null,
+        "ownProduction": false,
+        "taxableFactor": "1.000000"
+      },
+      {
+        "productId": "7eb525e3-f022-48dc-bc8d-4a52adee1fcb",
+        "kind": "goods",
+        "ncm": "09012100",
+        "cest": null,
+        "origin": 0,
+        "taxGroup": null,
+        "cclasstrib": null,
+        "serviceCode": null,
+        "ownProduction": false,
+        "taxableFactor": "1.000000"
+      },
+      {
+        "productId": "edd79896-78a5-4147-8c70-5915c0a618e8",
+        "kind": "goods",
+        "ncm": "19053100",
+        "cest": null,
+        "origin": 0,
+        "taxGroup": null,
+        "cclasstrib": null,
+        "serviceCode": null,
+        "ownProduction": false,
+        "taxableFactor": "1.000000"
+      }
+    ]
+  },
+  "paymentMethods": [
+    {
+      "id": "d8138e04-8042-4e4a-a156-2a40041691e1",
+      "code": "BOLETO",
+      "name": "Boleto bancário",
+      "kind": "boleto",
+      "nfe_tpag": "15",
+      "fee_percent": "0.0000",
+      "settlement_days": 0,
+      "active": true
+    },
+    {
+      "id": "d1458f29-e1ad-4e6a-8528-06c69442d5c5",
+      "code": "CREDITO",
+      "name": "Cartão de crédito",
+      "kind": "credit_card",
+      "nfe_tpag": "03",
+      "fee_percent": "3.5000",
+      "settlement_days": 30,
+      "active": true
+    },
+    {
+      "id": "d143bd80-168c-4420-9352-3f0f81cc83cd",
+      "code": "CRED_LOJA",
+      "name": "Crédito em loja",
+      "kind": "store_credit",
+      "nfe_tpag": "05",
+      "fee_percent": "0.0000",
+      "settlement_days": 0,
+      "active": true
+    },
+    {
+      "id": "3f7fc034-605c-4b4c-b35a-402095eeb576",
+      "code": "DEBITO",
+      "name": "Cartão de débito",
+      "kind": "debit_card",
+      "nfe_tpag": "04",
+      "fee_percent": "1.5000",
+      "settlement_days": 1,
+      "active": true
+    },
+    {
+      "id": "4a979c53-8053-4ac1-8991-0c99ff33a9de",
+      "code": "DINHEIRO",
+      "name": "Dinheiro",
+      "kind": "cash",
+      "nfe_tpag": "01",
+      "fee_percent": "0.0000",
+      "settlement_days": 0,
+      "active": true
+    },
+    {
+      "id": "12f68508-ede8-40d9-b91d-2c14928a0b4c",
+      "code": "PIX",
+      "name": "Pix",
+      "kind": "pix",
+      "nfe_tpag": "17",
+      "fee_percent": "0.0000",
+      "settlement_days": 0,
+      "active": true
+    },
+    {
+      "id": "3822fd96-9730-4a0e-aee7-3b768e9d5b01",
+      "code": "TRANSF",
+      "name": "Transferência",
+      "kind": "transfer",
+      "nfe_tpag": "18",
+      "fee_percent": "0.0000",
+      "settlement_days": 0,
+      "active": true
+    }
+  ],
+  "nfceSeries": [
+    {
+      "model": "65",
+      "series": 1,
+      "environment": 2
+    }
+  ],
+  "productIds": {
+    "cafe": "7eb525e3-f022-48dc-bc8d-4a52adee1fcb",
+    "pao": "edd79896-78a5-4147-8c70-5915c0a618e8",
+    "camiseta": "03f5a027-b885-40c9-b93a-1a96299b250a"
+  }
+}

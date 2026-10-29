@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+.env
+*.log
+storage/
+.DS_Store
+test-results/
+playwright-report/
+*.tsbuildinfo
+apps/pdv/data/
+dist-pdv/

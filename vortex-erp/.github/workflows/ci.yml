@@ -1,0 +1,74 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+env:
+  PGPASSWORD: postgres
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-retries 10
+    env:
+      NODE_ENV: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - name: Provisiona roles e bancos
+        run: |
+          psql -h localhost -U postgres -f infra/db/init-roles.sql
+          psql -h localhost -U postgres -c "CREATE DATABASE vortex_erp_test OWNER vortex_owner"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter "./packages/*" build
+      - run: pnpm typecheck
+      - name: Testes (dourados fiscais, regras RN-, propriedades, isolamento de tenant, smoke sem rede, web)
+        run: pnpm test
+      - name: Matriz de regras RN- está atualizada
+        run: node scripts/rn-matrix.mjs && git diff --exit-code docs/rn-matrix.md
+      - name: Build da web
+        run: pnpm --filter @vortex/web build
+      - name: Auditoria de dependências
+        run: pnpm audit --prod --audit-level high
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: test
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - name: Provisiona roles e banco
+        run: |
+          psql -h localhost -U postgres -f infra/db/init-roles.sql
+          psql -h localhost -U postgres -c "CREATE DATABASE vortex_erp OWNER vortex_owner"
+      - run: cp .env.example .env
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter "./packages/*" build
+      - run: pnpm db:migrate
+      - run: pnpm --filter @vortex/web exec playwright install --with-deps chromium
+      - name: Ponta a ponta (API e web reais, gateways simulados)
+        run: pnpm --filter @vortex/web e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with: { name: playwright-traces, path: apps/web/test-results }
